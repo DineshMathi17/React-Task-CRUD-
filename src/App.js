@@ -1,25 +1,53 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
+import { AddUser } from './Components/AddUser';
+import EditUser from './Components/EditUser';
+import { Nopage } from './Components/NoPage';
+import UserComponent from './Components/UserComponent';
+import { UserDetails } from './Components/UserDetails';
+import { data } from './Data/data';
+
 
 function App() {
+const [user, setUser] = useState(data)
+  //useEffect
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Switch>
+
+        <Route exact path="/">
+        <UserComponent
+        user={user}
+        setUser={setUser}/>
+        </Route>
+        
+        <Route path="/add/user">
+          <AddUser
+          user={user}
+          setUser={setUser}/>
+        </Route>
+
+        <Route path="/edit/:id">
+            <EditUser
+             user={user}
+             setUser={setUser}
+            />
+        </Route>
+
+        <Route path="/user/:id">
+           <UserDetails user={user}/>
+        </Route>
+
+        <Route path = "**">
+            <Nopage/>
+        </Route>
+      
+      </Switch>
     </div>
   );
 }
 
 export default App;
+
